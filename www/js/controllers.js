@@ -657,7 +657,7 @@ $scope.$on('$ionicView.enter', function (event) {
 
 })
 
-.controller('BluetoothSearch', function($state, $ionicHistory, $scope, $timeout, $rootScope, BLE) {
+.controller('BluetoothSearch', function($state, $ionicHistory, $scope, $timeout, $rootScope, BLE, $interval) {
   $scope.blStatus = 'Bluetooth Disabled';
   $scope.isConnecting = false;
   $scope.btDevices = BLE.devices;
@@ -673,12 +673,23 @@ $scope.$on('$ionicView.enter', function (event) {
     alert(error);
   };
 
+  var onData = function(buffer) {
+    // Decode the ArrayBuffer into a typed Array based on the data you expect
+    var data = bytesToString(buffer);
+    $scope.blStatus = data;
+    console.log(data);
+  }
+
   function stringToBytes(string) {
     var array = new Uint8Array(string.length);
     for (var i = 0, l = string.length; i < l; i++) {
       array[i] = string.charCodeAt(i);
     }
     return array.buffer;
+  }
+
+  function bytesToString(buffer) {
+    return String.fromCharCode.apply(null, new Uint8Array(buffer));
   }
 
   $scope.checkBT = function (time) {
@@ -722,12 +733,19 @@ $scope.$on('$ionicView.enter', function (event) {
         var data = stringToBytes('AT+PIO21');
         ble.write(peripheral.id, "ffe0", "ffe1", data, function(){
           alert('success on write!');
+          $scope.readBufferBT();
         }, function(){
           alert('error on write!');
         });
 
       }
     );
+  };
+
+  $scope.readBufferBT = function(){
+    ble.startNotification($rootScope.connectedDevice.id, "ffe0", "ffe1", onData, function(err){
+      console.log(err);
+    });
   };
 
   $scope.testWrite = function(){
