@@ -36,9 +36,12 @@
           <button ng-hide="bluetoothName === device.name" class="button button-assertive" ng-click="connectBT(device.id, device.name)">
             Connect
           </button>
-          <button ng-show="bluetoothName === device.name" class="button button-balanced">
+          <!-- <button ng-show="bluetoothName === device.name" class="button button-balanced">
             Connected
-          </button>
+          </button> -->
+          <!-- <button ng-show="bluetoothName === device.name" class="button button-energized">
+            Connecting
+          </button> -->
       </ion-item>
     </div>
 
@@ -50,7 +53,7 @@
         </button>
       </div>
       <div class="col">
-        <button class="button button-block button-balanced">
+        <button class="button button-block button-balanced" ng-click="testWrite()">
           <i class="icon ion-checkmark"></i>
           Save
 

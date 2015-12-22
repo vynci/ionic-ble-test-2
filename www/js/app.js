@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'ngCordova', 'starter.move-stack-service', 'starter.controllers', 'starter.cloud-storage', 'starter.load-moves', 'starter.move-manager', 'starter.joystick', 'angular.circular-slider', 'angular-progress-arc', 'uuid4'])
+angular.module('starter', ['ionic', 'ngCordova', 'starter.move-stack-service', 'starter.bluetooth-service', 'starter.controllers', 'starter.cloud-storage', 'starter.load-moves', 'starter.move-manager', 'starter.joystick', 'angular.circular-slider', 'angular-progress-arc', 'uuid4'])
 
 .run(function($ionicPlatform, $cordovaBluetoothSerial, $window, $rootScope, $cordovaFile) {
   $ionicPlatform.ready(function() {

@@ -20,9 +20,10 @@ angular.module('starter.controllers', [])
   $scope.isSlider = false;
 
   // $rootScope.isDeviceSlider = true;
-  // $scope.isBluetoothConnected = true;
+  $scope.isBluetoothConnected = true;
   function activate(){
-    if($window.innerHeight < 1279 && $window.innerWidth < 799 ){
+    console.log($window.innerWidth);
+    if($window.innerHeight < 1279 && $window.innerWidth < 767 ){
       $scope.isPhone = true;
     } else {
       $scope.isPhone = false;
@@ -656,70 +657,87 @@ $scope.$on('$ionicView.enter', function (event) {
 
 })
 
-.controller('BluetoothSearch', function($state, $ionicHistory, $scope, $cordovaBluetoothSerial, $timeout, $rootScope) {
+.controller('BluetoothSearch', function($state, $ionicHistory, $scope, $timeout, $rootScope, BLE) {
   $scope.blStatus = 'Bluetooth Disabled';
+  $scope.isConnecting = false;
+  $scope.btDevices = BLE.devices;
+
+  var success = function () {
+    if ($scope.btDevices.length < 1) {
+      // a better solution would be to update a status message rather than an alert
+      alert("Didn't find any Bluetooth Low Energy devices.");
+    }
+  };
+
+  var failure = function (error) {
+    alert(error);
+  };
+
+  function stringToBytes(string) {
+    var array = new Uint8Array(string.length);
+    for (var i = 0, l = string.length; i < l; i++) {
+      array[i] = string.charCodeAt(i);
+    }
+    return array.buffer;
+  }
+
   $scope.checkBT = function (time) {
     $timeout(function () {
-      $cordovaBluetoothSerial.isEnabled().then(
+      ble.isEnabled(
         function() {
-          $scope.blStatus = 'Bluetooth Enabled';
-          $scope.listBT();
+          $scope.blStatus = 'Bluetooth Enable';
+          BLE.scan().then(success, failure);
         },
         function() {
-          $scope.blStatus = 'Bluetooth Disabled';
-          $cordovaBluetoothSerial.enable().then(
+          ble.enable(
             function() {
-              $scope.blStatus = 'Bluetooth Enabled';
-              $scope.listBT();
+              $scope.blStatus = 'Bluetooth Enable';
+              BLE.scan().then(success, failure);
             },
             function() {
-              $scope.blStatus = 'Bluetooth Disabled';
+              console.log("The user did *not* enable Bluetooth");
             }
           );
         }
       );
-     },time);
+    }, time);
   };
 
   $scope.listBT = function() {
-    $cordovaBluetoothSerial.list().then(
-      function(devices) {
-        $scope.btDevices = devices;
-      },
+    BLE.scan().then(
+      success, failure
+    ).finally(
       function() {
-        $scope.blStatus = 'Bluetooth Disabled';
-        $cordovaBluetoothSerial.enable().then(
-          function() {
-            $scope.blStatus = 'Bluetooth Enabled';
-            $scope.listBT();
-          },
-          function() {
-            $scope.blStatus = 'Bluetooth Disabled';
-          }
-        );
+        $scope.$broadcast('scroll.refreshComplete');
+      }
+    )
+  };
+
+  $scope.connectBT = function(id, name) {
+    BLE.connect(id).then(
+      function(peripheral) {
+        $rootScope.connectedDevice = peripheral;
+        console.log($rootScope.connectedDevice);
+
+        var data = stringToBytes('AT+PIO21');
+        ble.write(peripheral.id, "ffe0", "ffe1", data, function(){
+          alert('success on write!');
+        }, function(){
+          alert('error on write!');
+        });
+
       }
     );
   };
 
-  $scope.connectBT = function(id, name) {
-    $cordovaBluetoothSerial.connect(id).then(
-      function() {
-        $rootScope.bluetoothId = id;
-        $rootScope.isDeviceSlider = _.startsWith(name, 'PROLINESL');
-        $rootScope.bluetoothName = name;
-        $scope.blStatus = 'Successfully Connected';
-        $ionicHistory.nextViewOptions({
-          disableBack: true
-        });
-        $state.go('app.playlists');
-        alert('Successfully Connected');
-      },
-      function() {
-        $scope.blStatus = 'Error on Connection';
-        alert('Cannot Connect');
-      }
-    );
-  };
+  $scope.testWrite = function(){
+    var data = stringToBytes('hello');
+    ble.write($rootScope.connectedDevice.id, "ffe0", "ffe1", data, function(){
+      alert('success on write!');
+    }, function(){
+      alert('error on write!');
+    });
+  }
 
   $scope.checkBT(1000);
 });
