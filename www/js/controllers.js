@@ -676,7 +676,7 @@ $scope.$on('$ionicView.enter', function (event) {
   var onData = function(buffer) {
     // Decode the ArrayBuffer into a typed Array based on the data you expect
     var data = bytesToString(buffer);
-    $scope.blStatus = data;
+    alert(data);
     console.log(data);
   }
 
@@ -745,6 +745,7 @@ $scope.$on('$ionicView.enter', function (event) {
   $scope.readBufferBT = function(){
     ble.startNotification($rootScope.connectedDevice.id, "ffe0", "ffe1", onData, function(err){
       console.log(err);
+      alert(err);
     });
   };
 
