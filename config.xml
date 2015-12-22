@@ -40,4 +40,8 @@
     <splash src="resources/android/splash/drawable-port-xxhdpi-screen.png" density="port-xxhdpi"/>
     <splash src="resources/android/splash/drawable-port-xxxhdpi-screen.png" density="port-xxxhdpi"/>
   </platform>
+  <gap:plugin name="cordova-plugin-ble-central" source="npm" />
+  <plugin name="com.ionic.keyboard" spec="1.0.3" source="pgb" />
+  <plugin name="cordova-plugin-splashscreen" spec="2.1.0" source="pgb" />
+  <gap:plugin name="cordova-plugin-file" version="4.0.0" source="npm" />
 </widget>
