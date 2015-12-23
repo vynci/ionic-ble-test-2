@@ -20,7 +20,7 @@ angular.module('starter.controllers', [])
   $scope.isSlider = false;
 
   // $rootScope.isDeviceSlider = true;
-  $scope.isBluetoothConnected = true;
+  // $scope.isBluetoothConnected = true;
   function activate(){
     if($window.innerHeight < 1279 && $window.innerWidth < 767 ){
       $scope.isPhone = true;
@@ -444,7 +444,7 @@ angular.module('starter.controllers', [])
   $scope.bluetoothRx = 'Reading Data From Bluetooth...';
 })
 
-.controller('TimeLapseCtrl', function($scope, $cordovaBluetoothSerial, $ionicModal, $timeout ) {
+.controller('TimeLapseCtrl', function($scope, $rootScope, $cordovaBluetoothSerial, $ionicModal, $timeout ) {
   console.log('Hello Time Lapse!');
   $scope.panStart = -90;
   $scope.panEnd = 90;
