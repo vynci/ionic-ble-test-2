@@ -1,5 +1,5 @@
 <ion-view view-title="Real Time">
-  <ion-content class="center-item">
+  <ion-content class="center-item" scroll="false">
     <div class="header-section">
       <div class="row button-header">
         <div class="col col-25">
@@ -128,7 +128,7 @@
         <span class="info">Pan: {{pos.x >= 0.5 ? ((pos.x * 360)-360) : (pos.x * 360) | number: 1}}°</span>
         <span class="info">Tilt: {{pos.y >= 0.5 ? ((pos.y * 360)-360) : (pos.y * 360) | number: 1}}°</span>
       </div>
-      <div ng-show="isPantilt && !isPhone" ng-class="{'animated infinite pulse' : isPantilt == true && isPhone == false}" class="test-indicator">
+      <div>
       </div>
       <div ng-show="isPanTiltJoystick">
         <joystick on-done="done(value)" position="panTiltJoystickValue" devType="pan-tilt" offset="pan-tilt" on-touch="panTiltOnStart()" on-release="panTiltOnEnd()"></joystick>

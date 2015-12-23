@@ -135,7 +135,7 @@ circle {
 
 /* Media Queries Stuff */
 .slider-tablet{
-  padding-top: 5%;
+  padding-top: 3%;
 }
 
 .font-indicator {
@@ -144,7 +144,7 @@ circle {
 }
 
 .pan-tilt-tablet{
-  padding-top: 20%;
+  padding-top: 15%;
 }
 
 .modal-settings {
