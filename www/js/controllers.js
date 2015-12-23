@@ -511,8 +511,6 @@ angular.module('starter.controllers', [])
     + $scope.panEnd + ',' + $scope.tiltStart + ',' + $scope.tiltEnd + ',' + $scope.sliderStart + ','
     + $scope.sliderEnd + ',' + $scope.shutterDelay + ',' + $scope.stabilizeDelay + ']';
 
-    console.log(msg);
-
     $scope.mainMsg(1, msg);
   }
 
