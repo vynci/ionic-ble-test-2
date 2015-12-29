@@ -352,7 +352,7 @@ $scope.readBufferBT = function(buffer){
     alert('Request Re-Transmission!');
   }
 
-  if($rootScope.isDeviceSlider){
+  if(data.charAt(0) === 'S' && data.charAt(1) === 'S'){
     var tmp1 = data.split(',');
 
     var slider1 = tmp1[0].split('S');
@@ -369,6 +369,7 @@ $scope.readBufferBT = function(buffer){
 
     if(slider1){
       $scope.bluetoothRx = 'Slider: ' + slider1;
+      $scope.$apply();
     }
   } else {
     var tmp = data.split(',');
