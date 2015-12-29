@@ -26,15 +26,19 @@
       <h4 class="info">Choose Device</h4>
     </div>
     <div ng-hide="btDevices.length" class="title-bar">
-      <h4 class="info">Press "Discover" Button to List Available Devices</h4>
+      <h4 class="info">Discovering Devices</h4><br>
+      <h4 class="info">Please Wait...</h4>
     </div>
     <div class="list">
       <ion-item ng-repeat="device in btDevices"
                 class="item item-button-right info">
           <b><i class="icon ion-bluetooth"></i></b>
           {{device.name}}
-          <button ng-hide="bluetoothName === device.name" class="button button-assertive" ng-click="connectBT(device.id, device.name)">
+          <button ng-hide="bluetoothName === device.name && device.name !== ''" class="button button-balanced" ng-click="connectBT(device.id, device.name)">
             Connect
+          </button>
+          <button ng-show="connectedDevice.id === device.id && device.name !== ''" class="button button-assertive" ng-click="disconnect(device.id)">
+            Disconnect
           </button>
           <!-- <button ng-show="bluetoothName === device.name" class="button button-balanced">
             Connected

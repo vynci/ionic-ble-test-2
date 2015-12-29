@@ -385,6 +385,7 @@ angular.module('starter.controllers', [])
         $scope.currentSlider = slider;
 
         $scope.bluetoothRx = 'Pan: ' + pan + ' - ' + 'Tilt: ' + tilt + ' - ' + 'Slider: ' + slider;
+        $scope.$apply();
       }
     }
   }
@@ -636,6 +637,16 @@ angular.module('starter.controllers', [])
       }
     );
   };
+
+  $scope.disconnect = function(id){
+    ble.disconnect(id, function(){
+      $rootScope.connectedDevice = {};
+      $scope.$apply();
+      alert('Successfully Disconnected');
+    }, function(){
+      alert('error on write!');
+    });
+  }
 
   $scope.testWrite = function(){
     var data = stringToBytes('hello');

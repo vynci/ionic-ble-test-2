@@ -346,8 +346,6 @@ $scope.readBufferBT = function(buffer){
 
   if(data !== ''){
     console.log('Received: ' + data);
-    $scope.bluetoothRx = 'test: ' + data;
-    $scope.$apply();
   }
 
   if(data === 'E:0'){
@@ -394,6 +392,7 @@ $scope.readBufferBT = function(buffer){
       $scope.currentPan = pan;
       $scope.currentTilt = tilt;
       $scope.bluetoothRx = 'Pan: ' + pan + ' - ' + 'Tilt: ' + tilt + ' - ' + 'Slider: ' + slider;
+      $scope.$apply();
     }
   }
 }
